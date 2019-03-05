@@ -2,10 +2,11 @@ class Log_in {
 
   StringBuffer pw;
   StringBuffer id;
-  boolean log_pw; //log, pw choice
+  int log_pw; //log, pw choice
   boolean numberver;
   int idIndex;
   int pwIndex;
+
 
 
 
@@ -38,6 +39,7 @@ class Log_in {
     Yspeed=0;
     Accelerate=0;
 
+
     idIndex=255;
     pwIndex=255;
 
@@ -48,7 +50,9 @@ class Log_in {
 
     id = new StringBuffer();
     pw = new StringBuffer();
-    log_pw= false; //log, pw choice
+    log_pw= 0; //log, pw choice
+
+
 
     numberver = false;
   }
@@ -152,13 +156,13 @@ class Log_in {
     //fill(255,0,0);
     //text("ok",420,80);
     if (text.equals("back")) {
-      if (log_pw) {
+      if (log_pw==1) {
         if (id.length() != 0) {
           //stIndex-=10;
           id.deleteCharAt(id.length()-1);
           //text("",idIndex,80);
         }
-      } else {
+      } else if (log_pw==2) {
         if (pw.length() != 0 ) {
           pw.deleteCharAt(id.length()-1);
         }
@@ -171,7 +175,7 @@ class Log_in {
     } else if (text.equals("return")) {
     } else if (text.equals("capslock")) {
     } else {
-      if (log_pw) {
+      if (log_pw==1) {
         if (id.length()>8) {
 
           //limit count
@@ -180,7 +184,7 @@ class Log_in {
           id.append(text);
           id_s = id.toString();
         }
-      } else {
+      } else if (log_pw==2) {
         if (pw.length()>8) {
           // limit count
         } else {
@@ -192,142 +196,166 @@ class Log_in {
     }
 
     textAlign(CORNER);//////////////////////////////////////////re try
-    if (handstate.handState()) {
-      if (log_pw) {
-        text(id_s, idIndex, height/5.5-height/11+Yspeed/6);
+
+    text(id_s, idIndex, height/5.5-height/11+Yspeed/6);
+    text(pw_s, idIndex, height/5.5-height/23+Yspeed/6);
+  }
+}
+
+
+void move() {
+
+  Accelerate+=0.05;
+  if (Accelerate>2) {
+
+    Accelerate=0;
+  }
+
+  rectMode(CORNER);
+  fill(20);
+  rect(0, 300+Yspeed, 600, 150);////////////// total frame
+
+  b=0;
+  d=0;
+
+  for (float y= 302.5+Yspeed; y<450+Yspeed; y=y+37.5) {
+
+    b++;/////////////////////////distribution method
+
+    if (b==1) {
+
+      c=10;////////////////////rectangle count
+      d=0;/////////////////////initial start
+      e=1;
+    } else if (b==2) {
+
+      c=9;
+      d=30;
+      e=1;
+    } else if (b==3) {
+
+      c=9;
+      d=30;
+      e=1;
+    } else if (b==4) {
+
+      c=7;/////////////exception
+      d=0;
+      e=1.66;
+    }
+
+    println("mouseX:"+mouseX+"mouseY"+mouseY);
+    for (float x= 2.5+d; x<60*c; x=x+60*e) {
+
+      fill(102, 120, 142, 80);
+
+      if (e==1.66 && x >=210 && x <310) {
+
+        rect(x, y, 180, 32.5);/////////////////4th space bar
+        fill(225, 220);//////////////////////////////////////////////////////////////////////////////////////////problem
+        text(ForthType[3], 390, 430+Yspeed);
+      } else if (e==1.66 && x >=310) {
+
+        rect(x+100, y, 96, 32.5);/////////////////4th return
+        fill(225, 220);///////////////////////////////////////////////////////////////////////////////////////problem
+        text(ForthType[4], 550, 430+Yspeed);
+      } else if (e==1.66 && x <80) {
+
+        rect(x, y, 80, 32.5);//////////////////4th others
+        fill(225, 220);///////////////////////////////////////////////////////////////////////////////////////////problem
+        text(ForthType[0], 40, 430+Yspeed);
+      } else if (e==1.66 && x <180) {
+
+        rect(x, y, 80, 32.5);//////////////////4th others
+        fill(225, 220);///////////////////////////////////////////////////////////////////////////////////////////problem
+        text(ForthType[1], 140, 430+Yspeed);
+      } else if (e==1.66 && x <280) {
+
+        rect(x, y, 80, 32.5);//////////////////4th others
+        fill(225, 220);///////////////////////////////////////////////////////////////////////////////////////////problem
+        text(ForthType[2], 240, 430+Yspeed);
       } else {
-        text(pw_s, idIndex, height/5.5-height/23+Yspeed/6);
-      }
-    }
-  }
+        rect(x, y, 55, 32.5);//////////////////each of typing
+        fill(225, 220);
 
+        if (b==1) {
 
-  void move() {
+          //for (int i=0; i<10; i++) {
+          //  text(firstType[i], 27.5+2.5+60*i, 315+Yspeed);//good
+          //}
 
-    Accelerate+=0.05;
-    if (Accelerate>2) {
+          int d= int (x-2.5)/60;
+          text(firstType[d], 27.5+2.5+60*d, 315+Yspeed);//good
+        } else if (b==2) {
 
-      Accelerate=0;
-    }
+          int d= int (x-32.5)/60;
+          //for (int i=0; i<9; i++) {
+          //  text(SecondType[i], 27.5*2+2.5*2+60*i, 355+Yspeed);//good
+          //}
 
-    rectMode(CORNER);
-    fill(20);
-    rect(0, 300+Yspeed, 600, 150);////////////// total frame
+          text(SecondType[d], 27.5*2+2.5*2+60*d, 355+Yspeed);//good
+        } else if (b==3) {
 
-    b=0;
-    d=0;
+          int d= int (x-32.5)/60;
+          //for (int i=0; i<9; i++) {
+          //  text(ThirdType[i], 27.5*2+2.5*2+60*i, 393+Yspeed);//good
+          //}
 
-    for (float y= 302.5+Yspeed; y<450+Yspeed; y=y+37.5) {
-
-      b++;/////////////////////////distribution method
-
-      if (b==1) {
-
-        c=10;////////////////////rectangle count
-        d=0;/////////////////////initial start
-        e=1;
-      } else if (b==2) {
-
-        c=9;
-        d=30;
-        e=1;
-      } else if (b==3) {
-
-        c=9;
-        d=30;
-        e=1;
-      } else if (b==4) {
-
-        c=7;/////////////exception
-        d=0;
-        e=1.66;
-      }
-
-      println("mouseX:"+mouseX+"mouseY"+mouseY);
-      for (float x= 2.5+d; x<60*c; x=x+60*e) {
-
-        fill(102, 120, 142, 80);
-
-        if (e==1.66 && x >=210 && x <310) {
-
-          rect(x, y, 180, 32.5);/////////////////4th space bar
-          fill(225, 220);//////////////////////////////////////////////////////////////////////////////////////////problem
-          text(ForthType[3], 390, 430+Yspeed);
-        } else if (e==1.66 && x >=310) {
-
-          rect(x+100, y, 96, 32.5);/////////////////4th return
-          fill(225, 220);///////////////////////////////////////////////////////////////////////////////////////problem
-          text(ForthType[4], 550, 430+Yspeed);
-        } else if (e==1.66 && x <80) {
-
-          rect(x, y, 80, 32.5);//////////////////4th others
-          fill(225, 220);///////////////////////////////////////////////////////////////////////////////////////////problem
-          text(ForthType[0], 40, 430+Yspeed);
-        } else if (e==1.66 && x <180) {
-
-          rect(x, y, 80, 32.5);//////////////////4th others
-          fill(225, 220);///////////////////////////////////////////////////////////////////////////////////////////problem
-          text(ForthType[1], 140, 430+Yspeed);
-        } else if (e==1.66 && x <280) {
-
-          rect(x, y, 80, 32.5);//////////////////4th others
-          fill(225, 220);///////////////////////////////////////////////////////////////////////////////////////////problem
-          text(ForthType[2], 240, 430+Yspeed);
-        } else {
-          rect(x, y, 55, 32.5);//////////////////each of typing
-          fill(225, 220);
-
-          if (b==1) {
-
-            //for (int i=0; i<10; i++) {
-            //  text(firstType[i], 27.5+2.5+60*i, 315+Yspeed);//good
-            //}
-
-            int d= int (x-2.5)/60;
-            text(firstType[d], 27.5+2.5+60*d, 315+Yspeed);//good
-          } else if (b==2) {
-
-            int d= int (x-32.5)/60;
-            //for (int i=0; i<9; i++) {
-            //  text(SecondType[i], 27.5*2+2.5*2+60*i, 355+Yspeed);//good
-            //}
-
-            text(SecondType[d], 27.5*2+2.5*2+60*d, 355+Yspeed);//good
-          } else if (b==3) {
-
-            int d= int (x-32.5)/60;
-            //for (int i=0; i<9; i++) {
-            //  text(ThirdType[i], 27.5*2+2.5*2+60*i, 393+Yspeed);//good
-            //}
-
-            text(ThirdType[d], 27.5*2+2.5*2+60*d, 393+Yspeed);//good
-          }
+          text(ThirdType[d], 27.5*2+2.5*2+60*d, 393+Yspeed);//good
         }
+      }
 
 
 
-        if (Click==true) {
+      if (Click==true) {
 
-          Yspeed=Yspeed-Accelerate;
-          //Accelerate++;
+        Yspeed=Yspeed-Accelerate;
+        //Accelerate++;
 
-          if (y<=152.5) {
+        if (y<=152.5) {
 
-            Yspeed=-150;
-            Accelerate=0;
+          Yspeed=-150;
+          Accelerate=0;
+        }
+      } else if (Click==false) {
+
+        Yspeed=Yspeed+Accelerate;
+        //Accelerate++;
+
+        if (y>=415) {
+          //452.5
+          Yspeed=0;
+          Accelerate=0;
+        }
+      }
+
+      if (handstate.handState()) {
+
+        KSkeleton skeleton= handstate.skeleton;
+        KJoint joints[] = skeleton.getJoints();
+        float xpos= joints[0].getX(); 
+        float ypos= joints[0].getY();
+
+        if ((225< xpos && xpos <415) && (80< ypos+Yspeed && ypos <160+Yspeed)) {
+
+          Click=true;
+          if ((225< xpos && xpos <415) && (50< ypos+Yspeed && ypos <92+Yspeed)) {
+            log_pw=1;
+            write(joints[0]);
+          } else if ((225< xpos && xpos <415) && (96< ypos+Yspeed && ypos <135+Yspeed)) {
+            log_pw=2;
+            write(joints[0]);
+          } else {
+            log_pw=0;
           }
-        } else if (Click==false) {
+        } else if (Click==true && (0< ypos+Yspeed && ypos< 150+Yspeed) && ((0< xpos && xpos<180) || (420<xpos && xpos<600))) {
 
-          Yspeed=Yspeed+Accelerate;
-          //Accelerate++;
-
-          if (y>=415) {
-            //452.5
-            Yspeed=0;
-            Accelerate=0;
-          }
+          Click=false;
+        } else if (Click==true &&(180<xpos&&xpos<420) && (0<ypos+Yspeed && ypos<48+Yspeed)) {
+          Click=false;
         }
       }
     }
   }
+}
 }

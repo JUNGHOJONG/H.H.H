@@ -3,6 +3,8 @@ import KinectPV2.KJoint;
 import KinectPV2.*;
 import de.bezier.data.sql.*;
 
+String sceneName="login";
+
 
 Log_in login;
 Exercise_process exercise;
@@ -12,7 +14,7 @@ dbConnect connect;
 MySQL msql;
 
 boolean Click;
-boolean id_pass;
+//boolean id_pass;
 
 String id_s;
 String pw_s;
@@ -60,7 +62,7 @@ void setup() {
 
   Click= false;
 
-  id_pass= true;
+  //id_pass= true;
 
   id_s = "";
   pw_s = "";
@@ -72,33 +74,17 @@ void draw() {
 
   //handstate.handState();
 
-  login.display();
-  login.move();
 
-  login.move();
+  if (sceneName.equals("login")) {
+
+    login.display();
+    login.move();
+  }
+
+
 
   menu.display();
 
 
   //println("X:"+mouseX+"Y:"+mouseY+"Click:"+Click+"Accel:"+Accelerate+"Yspeed:"+Yspeed);
-}
-
-void mousePressed() {
-
-  ///////////////////////////////////////////////////////////////////////////revise essential
-
-  if ((225< mouseX && mouseX <415) && (80< mouseY && mouseY <160)) {
-
-    Click=true;
-    if ((225< mouseX && mouseX <415) && (50< mouseY && mouseY <92)) {
-      id_pass=false;
-    } else if ((225< mouseX && mouseX <415) && (96< mouseY && mouseY <135)) {
-      id_pass=true;
-    }
-  } else if (Click==true && (0< mouseY && mouseY< 150) && ((0< mouseX && mouseX<180) || (420<mouseX && mouseX<600))) {
-
-    Click=false;
-  } else if (Click==true &&(180<mouseX&&mouseX<420) && (0<mouseY && mouseY<48)) {
-    Click=false;
-  }
 }
